@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".fragments.Content.EditContentFragment"
+    android:layout_marginTop="50dp"
+    >
+
+    <TextView
+        android:id="@+id/edit_title"
+        android:text="Ogłoszenie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rectangle_background"
+                style="@style/Field"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                >
+
+
+                <EditText
+                    android:id="@+id/edit_text_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tytuł"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    />
+
+                <EditText
+                    android:id="@+id/edit_text_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Podtytuł"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/edit_text_des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Opis"
+                    android:inputType="textMultiLine"
+                    android:minHeight="48dp" />
+
+                <Switch
+                    android:id="@+id/isPrioritySwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:minHeight="48dp"
+                    android:text="Wyróżnione"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/linearImage"
+                android:visibility="visible"
+                android:orientation="vertical"
+                android:background="@drawable/rectangle_background"
+                style="@style/Field"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        android:id="@+id/button_image_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".50"
+                        android:text="Usuń zdjęcie"
+                        android:layout_gravity="right"
+                        android:theme="@style/Field"
+                        android:textColor="@color/red"
+                        android:background="@android:color/transparent"
+                        />
+
+                    <Button
+                        android:id="@+id/button_image_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".50"
+                        android:text="Dodaj zdjęcie"
+                        android:theme="@style/Field"
+                        style="@style/ColorText"
+                        android:background="@android:color/transparent"
+                        />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/isReadySwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:minHeight="48dp"
+                    android:text="Gotowe?" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/imageViewAdd"
+                    android:scaleType="fitXY"
+                    android:paddingTop="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="20dp"
+                    android:adjustViewBounds="true"
+                    />
+
+                <ProgressBar
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/progress_bar_add"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="Dodaj"
+                    android:gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:id="@+id/button_edit"
+                    android:background="@drawable/rectangle_background"
+                    android:theme="@style/Button"
+                    style="@style/ColorText"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

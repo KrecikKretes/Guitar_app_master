@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Login.LogoutFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginTop="50dp"
+    android:paddingBottom="50dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/login_ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="#00000000"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zalogowano jako:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            style="@style/ColorText"
+            android:background="#00000000"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/logout_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            style="@style/ColorText"
+            android:background="#00000000"
+            android:textAlignment="center"
+            />
+
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Wyloguj"
+            android:background="@drawable/rectangle_background"
+            android:theme="@style/Button"
+            style="@style/ColorText"
+            />
+
+        <Button
+            android:id="@+id/button_delete_memory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Usuń dane aplikacji"
+            android:background="@drawable/rectangle_background"
+            android:theme="@style/Button"
+            style="@style/ColorText"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

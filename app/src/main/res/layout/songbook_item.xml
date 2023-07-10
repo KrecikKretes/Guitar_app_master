@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_card_view"
+    style="@style/ItemCardView"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp"
+        style="@style/Field"
+        >
+
+
+        <TextView
+            android:id="@+id/text_view_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Question"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            style="@style/ColorText"
+            />
+
+            <ViewSwitcher
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/faq_view_switcher"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    />
+                <TextView
+                    android:id="@+id/text_view_answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Answer"
+                    android:gravity="left"
+                    android:ellipsize="end"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    style="@style/ColorText"
+                    />
+            </ViewSwitcher>
+
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id="@+id/image_view_show_more"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_icon"
+            style="@style/Arrow"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:rotation="-90"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="14dp"
+            />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

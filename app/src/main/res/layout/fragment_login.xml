@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Login.LoginFragment"
+    android:orientation="vertical"
+    android:layout_marginTop="50dp"
+    android:gravity="center"
+    android:paddingBottom="50dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/login_ll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#00000000"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="300dp"
+            android:text="Uwaga! Opcja logowanie dostępna jest tylko dla Kadry Rajdu. Jeżeli jesteś uczestnikiem, nie musisz się logować"
+            style="@style/ColorText"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:background="#00000000"
+            android:textAlignment="center"
+            />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/Field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rectangle_background"
+            android:hint="email"
+            android:inputType="textNoSuggestions"
+            android:minHeight="48dp"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/password"
+            style="@style/Field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rectangle_background"
+            android:hint="hasło"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textAlignment="center" />
+
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Zaloguj"
+            android:background="@drawable/rectangle_background"
+            android:theme="@style/Button"
+            style="@style/ColorText"
+            />
+        <Button
+            android:id="@+id/button_delete_memory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Usuń dane aplikacji"
+            android:background="@drawable/rectangle_background"
+            android:theme="@style/Button"
+            style="@style/ColorText"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

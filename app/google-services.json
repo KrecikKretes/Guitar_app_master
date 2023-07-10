@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "450080684305",
+    "project_id": "guitar-1cdca",
+    "storage_bucket": "guitar-1cdca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450080684305:android:74ccefd0f9b1b0e4c174b0",
+        "android_client_info": {
+          "package_name": "com.zawisza.guitar_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450080684305-g7htsuvnfm63cgkp293h330g6p7sapql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm7dcwDYITwBRKaXsNy3tJBjqmqbfGZRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450080684305-g7htsuvnfm63cgkp293h330g6p7sapql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

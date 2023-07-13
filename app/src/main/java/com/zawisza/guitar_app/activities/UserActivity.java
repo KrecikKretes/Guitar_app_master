@@ -43,6 +43,7 @@ import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Content.ContentFragment;
+import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Login.LoginFragment;
@@ -471,7 +472,7 @@ public class UserActivity extends AppCompatActivity {
                 case R.id.nav_metronome:
 
                     if (switch_number != 2 || isLoginFragment || Variables.isIsContent()) {
-                        GuitarPickFragment.t1.cancel();
+                        SoundMeter.t1.cancel();
                         Log.d(TAG,"Change to LinksFragment");
                         if (switch_number != 1) {
                             switch_number = 2;

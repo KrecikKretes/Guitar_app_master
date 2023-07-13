@@ -1,7 +1,6 @@
 package com.zawisza.guitar_app.fragments.GuitarPick;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
@@ -11,7 +10,26 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-public class SoundMeter{
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class SoundMeter implements Runnable {
+
+    private String TAG = "Guitar-Master - SoundMeter";
+    private static final int[] SAMPLE_RATES = {44100, 22050, 16000, 11025, 8000};
+
+    public interface PitchDetectionListerer{
+        void onPitchDetected(float freq, double avgIntensity);
+    }
+
+    float lastComputedFreq = 0;
+    private AudioRecord ar;
+    private PitchDetectionListerer pitchDetectionListerer;
+
+    public void setPitchDetectionListerer(PitchDetectionListerer pitchDetectionListerer1){
+        pitchDetectionListerer = pitchDetectionListerer1;
+    }
+
 
     private Context context;
 
@@ -19,42 +37,76 @@ public class SoundMeter{
         this.context = context;
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return context;
     }
 
-    private AudioRecord ar = null;
+
     private int minSize;
-
-    public void start() {
-        Log.d("aaaa", String.valueOf(context));
-        minSize = AudioRecord.getMinBufferSize(8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-        if (ActivityCompat.checkSelfPermission((Activity)this.context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            // public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            ActivityCompat.requestPermissions((Activity) this.context,
-                   new String[]{Manifest.permission.RECORD_AUDIO},
-                    150);
+    public static Timer t1;
 
 
-            Log.d("aaaaaa", "Permision not granted");
-            return;
+
+
+    public void init() {
+        int bufSize = 16384;
+        int avalaibleSampleRates = SAMPLE_RATES.length;
+        int i = 0;
+        do {
+            int sampleRate = SAMPLE_RATES[i];
+            int minBufSize = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+            if (minBufSize != AudioRecord.ERROR_BAD_VALUE && minBufSize != AudioRecord.ERROR) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                ar = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, Math.max(bufSize, minBufSize * 4));
+            }
+            i++;
         }
-        ar = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minSize);
-
-        ar.startRecording();
+        while (i < avalaibleSampleRates && (ar == null || ar.getState() != AudioRecord.STATE_INITIALIZED));
     }
 
-    public void stop() {
-        if (ar != null) {
-            ar.stop();
+    @Override
+    public void run() {
+        Log.d(TAG, "sampleRate= "+ar.getSampleRate());
+
+        if(ar.getState() != AudioRecord.STATE_INITIALIZED) {
+            Log.e(TAG, "AudioRecord not initialized");
         }
+        ar.startRecording();
+        int bufSize = 8192;
+        short[] buffer = new short[bufSize];
+        int sampleRate = ar.getSampleRate();
+
+        t1 = new Timer();
+
+        t1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int read = ar.read(buffer, 0, bufSize);
+                Log.d(TAG, "1");
+                if (read > 0) {
+                    double intensity = averageIntensity(buffer, read);
+                    int maxZeroCrossing = (int) (250 * (read / bufSize) * (sampleRate / 44100.0));
+                    Log.d(TAG, "2");
+                    Log.d(TAG, "intensity " + intensity);
+                    Log.d(TAG, "maxZero " + maxZeroCrossing);
+                    Log.d(TAG, "zeroCrossingCount " + zeroCrossingCount(buffer));
+                    if (intensity >= 50 && zeroCrossingCount(buffer) <= maxZeroCrossing) {
+                        float freq = getPitch(buffer, read / 4, read, sampleRate, 50, 500);
+                        Log.d(TAG, "3");
+                        Log.d(TAG, "Freq : " + freq);
+                        Log.d(TAG, "lastComputedFreq" + lastComputedFreq);
+                        if (Math.abs(freq - lastComputedFreq) <= 5f) {
+                            Log.d(TAG, "4");
+
+                            pitchDetectionListerer.onPitchDetected(freq, intensity);
+                        }
+                        lastComputedFreq = freq;
+                    }
+                }
+            }
+        },0, 400);
     }
 
     public double getAmplitude() {
@@ -69,5 +121,53 @@ public class SoundMeter{
             }
         }
         return max;
+    }
+
+
+
+
+    private float getPitch(short[] data, int windowSize, int frames, int sampleRate, int minFreq, int maxFreq) {
+        float maxOffset = sampleRate /minFreq;
+        float minOffset = sampleRate /maxFreq;
+
+        int minSum = Integer.MAX_VALUE;
+        int minSumLag = 0;
+
+        for(int lag = (int) minOffset; lag <= maxOffset; lag++){
+            int sum = 0;
+            for(int i =0; i< windowSize; i++){
+                int oldIndex = i - lag;
+                int sample = ((oldIndex <0) ? data[frames + oldIndex] : data[oldIndex]);
+
+                sum += Math.abs(sample - data[i]);
+            }
+            if(sum < minSum){
+                minSum = sum;
+                minSumLag = lag;
+            }
+        }
+        return sampleRate / minSumLag;
+    }
+
+    private int zeroCrossingCount(short[] data) {
+        int len = data.length;
+        int count = 0;
+        boolean prevValPositive = data[0] >= 0;
+        for(int i = 1; i < len; i++){
+            boolean positive = data[i] >= 0;
+            if( prevValPositive != positive){
+                count++;
+            }
+            prevValPositive = positive;
+        }
+        return count;
+    }
+
+    private double averageIntensity(short[] data, int frames) {
+        double sum = 0;
+        for(int i = 0; i < frames; i++){
+            sum +=Math.abs(data[i]);
+        }
+        return sum / frames;
     }
 }

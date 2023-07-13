@@ -1,5 +1,6 @@
 package com.zawisza.guitar_app.fragments.GuitarPick;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,8 @@ import com.zawisza.guitar_app.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GuitarPickFragment extends Fragment{
 
@@ -20,22 +23,38 @@ public class GuitarPickFragment extends Fragment{
 
     private Context context;
     private SoundMeter soundMete;
-    public static Timer t1;
+
+    private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+
+    private Tuning tuning;
+    private int pitchIndex;
+    private float lastFreq;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG,"Open GuitarPickFragment");
         context = getContext();
+        tuning = Tuning.getTuning(context, Preferences.getString(context, getString(R.string.pref_tuning_key), getString(R.string.standard_tuning_val)));
         View view = inflater.inflate(R.layout.fragment_guitarpick, container, false);
         soundMete = new SoundMeter(context);
-        soundMete.start();
-        t1 = new Timer();
-        t1.schedule(new TimerTask() {
+        soundMete.init();
+        soundMete.setPitchDetectionListerer(new SoundMeter.PitchDetectionListerer() {
             @Override
-            public void run() {
-                Log.d(TAG, "SoundMete Amplitude : " + soundMete.getAmplitude());
+            public void onPitchDetected(float freq, double avgIntensity) {
+                final int index = tuning.closestPitchIndex(freq);
+                final Pitch pitch = tuning.pitches[index];
+                double interval = 1200 * Utils.log2(freq / pitch.frequency); // interval in cents
+                final float needlePos = (float) (interval / 100);
+                final boolean goodPitch = Math.abs(interval) < 5.0;
+                Log.d(TAG,"freq : " + freq);
+
+                pitchIndex = index;
+                lastFreq = freq;
             }
-        },0, 100);
+
+        });
+        mExecutor.execute(soundMete);
+
 
         return view;
     }

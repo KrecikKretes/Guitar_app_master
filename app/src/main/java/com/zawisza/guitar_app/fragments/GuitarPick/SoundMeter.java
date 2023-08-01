@@ -84,22 +84,12 @@ public class SoundMeter implements Runnable {
             @Override
             public void run() {
                 int read = ar.read(buffer, 0, bufSize);
-                Log.d(TAG, "1");
                 if (read > 0) {
                     double intensity = averageIntensity(buffer, read);
                     int maxZeroCrossing = (int) (250 * (read / bufSize) * (sampleRate / 44100.0));
-                    Log.d(TAG, "2");
-                    Log.d(TAG, "intensity " + intensity);
-                    Log.d(TAG, "maxZero " + maxZeroCrossing);
-                    Log.d(TAG, "zeroCrossingCount " + zeroCrossingCount(buffer));
                     if (intensity >= 50 && zeroCrossingCount(buffer) <= maxZeroCrossing) {
                         float freq = getPitch(buffer, read / 4, read, sampleRate, 50, 500);
-                        Log.d(TAG, "3");
-                        Log.d(TAG, "Freq : " + freq);
-                        Log.d(TAG, "lastComputedFreq" + lastComputedFreq);
                         if (Math.abs(freq - lastComputedFreq) <= 5f) {
-                            Log.d(TAG, "4");
-
                             pitchDetectionListerer.onPitchDetected(freq, intensity);
                         }
                         lastComputedFreq = freq;

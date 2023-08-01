@@ -14,14 +14,7 @@ public class Variables {
 
     private static String topic_to_android = "announcements_android";
     private static String topic_to_ios = "announcements_ios";
-    private static String announcements = "Announcements";
-    private static String Timetables = "Timetables";
-    private static String FAQs = "FAQs";
-    private static String Enrollments = "Enrollments";
-    private static String Routes = "Routes";
-    private static String Images = "Images";
-    private static String Emails = "Emails";
-    private static String Links = "Links";
+
 
 
 
@@ -42,31 +35,11 @@ public class Variables {
         return icon_back;
     }
 
-    public static String getAnnouncements() {
-        return announcements;
-    }
-
-    public static String getTimetables() {
-        return Timetables;
-    }
-
-    public static String getFAQs() {
-        return FAQs;
-    }
-
-    public static String getEnrollments() {
-        return Enrollments;
-    }
 
     public static String getTopic_to_ios() {
         return topic_to_ios;
     }
 
-    public static String getRoutes() {
-        return Routes;
-    }
-
-    public static String getImages(){ return Images;}
 
     public static Button getButton_add() {
         return button_add;
@@ -102,15 +75,5 @@ public class Variables {
     public static void setIsContent(boolean isContent) {
         Variables.isContent = isContent;
     }
-
-    public static String getEmails() {
-        return Emails;
-    }
-    public static void setEmails(String emails) {
-        Emails = emails;
-    }
-
-    public static String getLinks() {
-        return Links;
-    }
+    
 }

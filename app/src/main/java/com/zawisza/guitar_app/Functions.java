@@ -8,7 +8,7 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
+import android.support.media.ExifInterface;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -29,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
+
 
 public class Functions {
     private final String TAG ="Rajd - Functions";

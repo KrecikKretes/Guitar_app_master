@@ -1,6 +1,7 @@
 package com.zawisza.guitar_app.fragments.Songbook;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,17 +43,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Songbook songbook = songbookArrayList.get(position);
         Functions functions = new Functions();
 
-        holder.questionTextView.setText(functions.newLinesRepairer(songbook.getQuestion()));
+        holder.titleTextView.setText(functions.newLinesRepairer(songbook.getTitle()));
 
-        holder.answerTextView.setText(functions.newLinesRepairer(songbook.getAnswer()));
-
-        TextView[] textViewArray = new TextView[1];
-        textViewArray[0] = holder.answerTextView;
-
-        holder.cardview.setOnClickListener(view ->
-                listener.onItemClick(textViewArray, holder.imageView , holder.viewSwitcher)
-        );
-
+        holder.cardview.setOnClickListener(view -> {
+            listener.onItemClick(songbook.getNo());
+        });
     }
 
     @Override
@@ -64,22 +59,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        ViewSwitcher viewSwitcher;
-        TextView questionTextView, answerTextView;
-        ImageView imageView;
+        TextView titleTextView;
         CardView cardview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            questionTextView = itemView.findViewById(R.id.text_view_question);
-            answerTextView = itemView.findViewById(R.id.text_view_answer);
-            viewSwitcher = itemView.findViewById(R.id.faq_view_switcher);
-
+            titleTextView = itemView.findViewById(R.id.text_view_title);
             cardview = itemView.findViewById(R.id.item_card_view);
-
-            imageView = itemView.findViewById(R.id.image_view_show_more);
-
         }
     }
 

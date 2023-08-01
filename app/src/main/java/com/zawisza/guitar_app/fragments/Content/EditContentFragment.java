@@ -71,7 +71,7 @@ public class EditContentFragment extends Fragment {
     private ImageView imageView;
     private Uri imageUri;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference collectionReference = db.collection(Variables.getAnnouncements());
+    //private CollectionReference collectionReference = db.collection(Variables.getAnnouncements());
     private ProgressBar progressBar;
 
     @SuppressLint("StaticFieldLeak")
@@ -177,6 +177,7 @@ public class EditContentFragment extends Fragment {
         String subTitle = editTextSubTitle.getText().toString();
         content = editTextDes.getText().toString();
 
+        /*
         DocumentReference documentReference = collectionReference.document(id);
 
         if(!title.trim().isEmpty()){
@@ -189,6 +190,8 @@ public class EditContentFragment extends Fragment {
             documentReference.update("subTitle", subTitle);
         }
 
+
+         */
         if(imageView.getDrawable() != null) {
             addImageToDatabase(id);
         }
@@ -228,7 +231,7 @@ public class EditContentFragment extends Fragment {
 
         }else{
             Toast.makeText(context,"Nie dodano obrazu", Toast.LENGTH_SHORT).show();
-            db.collection(Variables.getAnnouncements()).document(id).update("isImage", false);
+            //db.collection(Variables.getAnnouncements()).document(id).update("isImage", false);
         }
 
     }

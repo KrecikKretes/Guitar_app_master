@@ -6,31 +6,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.R;
-import com.zawisza.guitar_app.Variables;
+import com.zawisza.guitar_app.fragments.Content.ContentFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
 public class SongbookFragment extends Fragment implements SelectListener{
 
-    private static final String TAG = "Rajd - FAQFragment";
+    private static final String TAG = "Guitar-Master - SongbookFragment";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Query faqRef = db.collection(Variables.getFAQs());
+    Query songRef;
 
     public RecyclerView recyclerView;
 
@@ -38,6 +38,8 @@ public class SongbookFragment extends Fragment implements SelectListener{
     private RecyclerAdapter recyclerAdapter;
 
     private Songbook songbook;
+
+    private FirebaseAuth auth;
     private final HashMap<Songbook, String> map = new HashMap<>();
 
     private final Functions functions = new Functions();
@@ -53,7 +55,10 @@ public class SongbookFragment extends Fragment implements SelectListener{
         recyclerView.setAdapter(recyclerAdapter);
 
 
+
         EventChangeListener();
+
+
     }
 
 
@@ -72,7 +77,8 @@ public class SongbookFragment extends Fragment implements SelectListener{
     @SuppressLint("NotifyDataSetChanged")
     private void EventChangeListener(){
 
-        faqRef
+        songRef = db.collection(requireActivity().getString(R.string.songbook));
+        songRef
                 .orderBy("no", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
 
@@ -85,16 +91,17 @@ public class SongbookFragment extends Fragment implements SelectListener{
                         if(documentChange.getType() == DocumentChange.Type.ADDED){
                             songbook = documentChange.getDocument().toObject(Songbook.class);
                             songbookArrayList.add(songbook);
+                            Log.d(TAG, songbook.toString());
                             map.put(songbook, documentChange.getDocument().getId());
-                            Log.d(TAG,"Adding FAQ");
+                            Log.d(TAG,"Adding SongBook");
                         }
                         if(documentChange.getType() == DocumentChange.Type.MODIFIED){
                             Songbook newSongbook = documentChange.getDocument().toObject(Songbook.class);
-                            Log.d(TAG,"Trying modified FAQ");
+                            Log.d(TAG,"Trying modified SongBook");
                             for(int i = 0; i< songbookArrayList.size(); i++){
-                                if(newSongbook.getQuestion().equals(songbookArrayList.get(i).getQuestion())){
+                                if(newSongbook.getTitle().equals(songbookArrayList.get(i).getTitle())){
                                     songbookArrayList.set(i, newSongbook);
-                                    Log.d(TAG,"Complete modified FAQ");
+                                    Log.d(TAG,"Complete modified SongBook");
                                     break;
                                 }
 
@@ -102,11 +109,11 @@ public class SongbookFragment extends Fragment implements SelectListener{
                         }
                         if(documentChange.getType() == DocumentChange.Type.REMOVED){
                             Songbook newSongbook = documentChange.getDocument().toObject(Songbook.class);
-                            Log.d(TAG,"Trying remove FAQ");
+                            Log.d(TAG,"Trying remove SongBook");
                             for(int i = 0; i< songbookArrayList.size(); i++){
-                                if(newSongbook.getQuestion().equals(songbookArrayList.get(i).getQuestion())){
+                                if(newSongbook.getTitle().equals(songbookArrayList.get(i).getTitle())){
                                     songbookArrayList.remove(i);
-                                    Log.d(TAG,"Complete remove FAQ");
+                                    Log.d(TAG,"Complete remove SongBook");
                                     break;
                                 }
                             }
@@ -115,6 +122,7 @@ public class SongbookFragment extends Fragment implements SelectListener{
                     }
                     recyclerAdapter.notifyDataSetChanged();
                 });
+
     }
 
     @SuppressLint("ResourceAsColor")
@@ -123,15 +131,38 @@ public class SongbookFragment extends Fragment implements SelectListener{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_songbook, container, false);
 
+        Log.d(TAG,"Open SongBookFragment");
+
+        auth = FirebaseAuth.getInstance();
 
         setUpRecyclerView(view);
 
         return view;
     }
 
-    @SuppressLint("ResourceType")
     @Override
-    public void onItemClick(TextView[] textViewArray, ImageView imageView, ViewSwitcher viewSwitcher) {
-        functions.onItemClickAnimation(textViewArray,imageView,viewSwitcher,getContext(), "FAQ", null);
+    public void onItemClick(int number) {
+        Collections.sort(songbookArrayList);
+        if(auth.getCurrentUser() != null) {
+            replaceFragments(R.id.frameLayout_login, songbookArrayList.get(number));
+        }else{
+            replaceFragments(R.id.frameLayout, songbookArrayList.get(number));
+        }
     }
+
+    public void replaceFragments(int id_layout, Songbook songbook1) {
+        Fragment fragment = new ContentFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", songbook1.getTitle());
+        bundle.putString("accords", songbook1.getAccords());
+        bundle.putBoolean("isTabs", songbook1.isTabs());
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations( R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right , R.anim.exit_left_to_right)
+                .replace(id_layout, fragment, TAG)
+                .commit();
+
+    }
+
 }

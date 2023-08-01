@@ -71,16 +71,6 @@
 
 
             <TextView
-                android:id="@+id/subtitle_show"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subtitle"
-                android:layout_margin="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                style="@style/ColorText"
-                />
-
-            <TextView
                 android:id="@+id/content_show"
                 android:layout_margin="10dp"
                 android:layout_width="wrap_content"
@@ -90,20 +80,17 @@
                 style="@style/ColorText"
                 />
 
-
-            <ImageView
-                android:id="@+id/image_show"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress_animation"
-                android:adjustViewBounds="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:tag="Empty_star"
-                />
+                android:layout_height="match_parent"
+                >
 
+                <ImageView
+                    android:id="@+id/imageview_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
         </LinearLayout>
 
     </ScrollView>

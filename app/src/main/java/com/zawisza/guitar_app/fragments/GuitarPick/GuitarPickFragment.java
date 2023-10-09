@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ public class GuitarPickFragment extends Fragment{
 
     private TextView textView;
     private TextView textView2;
+    private ImageView imageView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -43,6 +45,7 @@ public class GuitarPickFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_guitarpick, container, false);
         textView = view.findViewById(R.id.textView2);
         textView2 = view.findViewById(R.id.textView3);
+        imageView = view.findViewById(R.id.imageView3);
         context = getContext();
         tuning = Tuning.getTuning(context, Preferences.getString(context, getString(R.string.pref_tuning_key), getString(R.string.standard_tuning_val)));
         soundMete = new SoundMeter(context);
@@ -60,6 +63,7 @@ public class GuitarPickFragment extends Fragment{
                     @Override
                     public void run() {
                         // Stuff that updates the UI
+                        imageView.setRotation(90);
                         textView.setText(pitch.name);
                         textView2.setText("" + ((int)(freq - pitch.frequency + 1)));
                         Log.d(TAG,"Now  : " + freq);

@@ -62,7 +62,7 @@ public class AdminActivity extends AppCompatActivity{
     TextView backTextView;
     Boolean isLogoutFragment = false;
 
-    private static final String TAG = "Rajd - AdminActivity";
+    private static final String TAG = "Guitar-Master - AdminActivity";
 
     private Images images = new Images();
 
@@ -78,27 +78,27 @@ public class AdminActivity extends AppCompatActivity{
         }else{
             Log.d(TAG,mgr.getBackStackEntryAt(mgr.getBackStackEntryCount() - 2).getName());
             switch (Objects.requireNonNull(mgr.getBackStackEntryAt(mgr.getBackStackEntryCount() - 2).getName())){
-                case "Rajd - ActivFragment":
+                case "Guitar-Master - ActivFragment":
                     titleTextView.setText("Ogłoszenia");
                     button_add.setVisibility(View.VISIBLE);
                     mgr.popBackStack();
                     break;
-                case "Rajd - LinksFragment":
+                case "Guitar-Master - LinksFragment":
                     titleTextView.setText("Zapisy");
                     button_add.setVisibility(View.VISIBLE);
                     mgr.popBackStack();
                     break;
-                case "Rajd - FAQFragment":
+                case "Guitar-Master - FAQFragment":
                     titleTextView.setText("FAQ");
                     button_add.setVisibility(View.INVISIBLE);
                     mgr.popBackStack();
                     break;
-                case "Rajd - CalendarFragment":
+                case "Guitar-Master - CalendarFragment":
                     titleTextView.setText("Harmonogram");
                     button_add.setVisibility(View.INVISIBLE);
                     mgr.popBackStack();
                     break;
-                case "Rajd - RoutesFragment":
+                case "Guitar-Master - RoutesFragment":
                     titleTextView.setText("Trasy");
                     button_add.setVisibility(View.INVISIBLE);
                     mgr.popBackStack();

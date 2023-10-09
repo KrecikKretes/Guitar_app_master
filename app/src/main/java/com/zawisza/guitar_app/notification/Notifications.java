@@ -88,7 +88,7 @@ public class Notifications extends FirebaseMessagingService {
             getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
 
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.logo_rajd);
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.notification_alarm_buzzer_icon);
         Log.d(TAG,"Step 2");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Rajd 2023")
                 .setSmallIcon(R.drawable.notification_alarm_buzzer_icon)

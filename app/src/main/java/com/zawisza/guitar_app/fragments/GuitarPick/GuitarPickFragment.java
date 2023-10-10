@@ -63,10 +63,32 @@ public class GuitarPickFragment extends Fragment{
                     @Override
                     public void run() {
                         // Stuff that updates the UI
-                        imageView.setRotation(90);
+
+                        int realFreq = 0;
+                        if(freq - pitch.frequency > -1.5 && freq - pitch.frequency < 1.5){
+                            realFreq = 0;
+                        }else{
+                            realFreq = (int)(freq - pitch.frequency + 1);
+                        }
+                        
+                        if(freq > 60 && freq < 96.205){
+                            imageView.setRotation(300 + realFreq * 2);
+                        } else if (freq < 128.415) {
+                            imageView.setRotation(240 + realFreq * 2);
+                        } else if (freq < 171.415) {
+                            imageView.setRotation(180 + realFreq * 2);
+                        } else if (freq < 221.47) {
+                            imageView.setRotation(120 + realFreq * 2);
+                        } else if (freq < 288.285) {
+                            imageView.setRotation(60 + realFreq *2 );
+                        } else if (freq < 350) {
+                            imageView.setRotation(realFreq *2);
+                        }
+
                         textView.setText(pitch.name);
-                        textView2.setText("" + ((int)(freq - pitch.frequency + 1)));
-                        Log.d(TAG,"Now  : " + freq);
+
+                        textView2.setText("" + realFreq);
+                        Log.d(TAG,"Now  : " + realFreq);
                         Log.d(TAG,"Pitch  : " + pitch.frequency);
                     }
                 });

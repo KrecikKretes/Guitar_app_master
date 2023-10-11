@@ -67,7 +67,7 @@ public class UserActivity extends AppCompatActivity {
     TextView backTextView;
     Boolean isLoginFragment = false;
 
-    private static final String TAG = "Rajd - UserActivity";
+    private static final String TAG = "Guitar-Master - UserActivity";
 
     private Images images = new Images();
 
@@ -150,7 +150,7 @@ public class UserActivity extends AppCompatActivity {
         boolean isNotificationEnabled = notificationManagerCompat.areNotificationsEnabled();
 
         if(!isNotificationEnabled){
-            Log.d(TAG,"Permission denied");
+            Log.d(TAG,"Permission Notification denied");
 
             SharedPreferences settings = getSharedPreferences(NAME, 0);
             int number = settings.getInt(NAME, -1);
@@ -192,7 +192,7 @@ public class UserActivity extends AppCompatActivity {
             editor.commit();
 
         }else{
-            Log.d(TAG,"Permission granted");
+            Log.d(TAG,"Permission Notification granted");
         }
 
 

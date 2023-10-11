@@ -1,21 +1,26 @@
 package com.zawisza.guitar_app.fragments.GuitarPick;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SoundMeter implements Runnable {
 
-    private String TAG = "Guitar-Master - SoundMeter";
+    private final String TAG = "Guitar-Master - SoundMeter";
+
+    private static final int RECORD_AUDIO_PERMISSION_CODE = 123;
     private static final int[] SAMPLE_RATES = {44100, 22050, 16000, 11025, 8000};
 
     public interface PitchDetectionListerer{
@@ -31,10 +36,12 @@ public class SoundMeter implements Runnable {
     }
 
 
-    private Context context;
+    private final Context context;
+    private final Activity activity;
 
-    public SoundMeter(Context context) {
+    public SoundMeter(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     public Context getContext() {
@@ -57,9 +64,15 @@ public class SoundMeter implements Runnable {
             int minBufSize = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
             if (minBufSize != AudioRecord.ERROR_BAD_VALUE && minBufSize != AudioRecord.ERROR) {
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+                    Log.d(TAG,"Permission Microfone not granted");
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.RECORD_AUDIO},
+                            RECORD_AUDIO_PERMISSION_CODE);
+
                 }
                 ar = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, Math.max(bufSize, minBufSize * 4));
+
             }
             i++;
         }

@@ -29,38 +29,48 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="415dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="100dp"
         android:padding="0dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/arrow_guitarpick"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/arrow" />
+            android:layout_margin="0dp"
+            android:adjustViewBounds="true"
+            android:padding="0dp"
+            android:src="@drawable/arrow"
+            android:contentDescription="arrow" />
 
 
         <ImageView
             android:id="@+id/compasUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:layout_margin="0dp"
             android:adjustViewBounds="true"
             android:padding="0dp"
-            android:src="@drawable/compass1" />
+            android:src="@drawable/compass1"
+            android:contentDescription="compassUp" />
 
         <ImageView
             android:id="@+id/compasDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:layout_below="@id/compasUp"
-            android:adjustViewBounds="true"
             android:layout_margin="0dp"
+            android:adjustViewBounds="true"
             android:padding="0dp"
-            android:src="@drawable/compass2" />
+            android:src="@drawable/compass2"
+            android:contentDescription="compassDown"
+            />
 
 
     </RelativeLayout>

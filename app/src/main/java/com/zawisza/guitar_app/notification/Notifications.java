@@ -28,7 +28,7 @@ public class Notifications extends FirebaseMessagingService {
 
     NotificationManager notificationManager;
 
-    private static final String TAG = "Rajd - Notifications";
+    private static final String TAG = "Guitar-Master - Notifications";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
@@ -65,10 +65,12 @@ public class Notifications extends FirebaseMessagingService {
         @SuppressLint("UnspecifiedImmutableFlag")
         PendingIntent resultPendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT |
+            resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT |
                     PendingIntent.FLAG_IMMUTABLE);
         }else{
-            resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

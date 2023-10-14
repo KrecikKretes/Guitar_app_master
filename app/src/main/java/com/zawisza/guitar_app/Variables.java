@@ -12,20 +12,10 @@ public class Variables {
 
     private static boolean isContent;
 
-    private static String topic_to_android = "announcements_android";
-    private static String topic_to_ios = "announcements_ios";
-
-
-
-
     private static int icon_user = R.drawable.person_profile_image_icon;
     private static int icon_back = R.drawable.back_icon;
     private static int icon_add = R.drawable.plus_round_line_icon_3;
 
-
-    public static String getTopic_to_android() {
-        return topic_to_android;
-    }
 
     public static int getIcon_user() {
         return icon_user;
@@ -33,11 +23,6 @@ public class Variables {
 
     public static int getIcon_back() {
         return icon_back;
-    }
-
-
-    public static String getTopic_to_ios() {
-        return topic_to_ios;
     }
 
 

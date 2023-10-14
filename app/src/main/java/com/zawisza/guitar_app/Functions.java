@@ -32,7 +32,7 @@ import java.util.Objects;
 
 
 public class Functions {
-    private final String TAG ="Rajd - Functions";
+    private final String TAG ="Guitar-Master - Functions";
     private Context context;
 
     public void smoothBackToFirstItem(RecyclerView recyclerView){
@@ -52,9 +52,9 @@ public class Functions {
         File f;
         try {
             if(id.indexOf(".") > 0) {
-                f = new File("/data/data/com.zawisza.raid/app_images", id.substring(0, id.indexOf(".")) + ".jpg");
+                f = new File("/data/data/com.zawisza.guitar_app/app_images", id.substring(0, id.indexOf(".")) + ".jpg");
             }else{
-                f = new File("/data/data/com.zawisza.raid/app_images", id + ".jpg");
+                f = new File("/data/data/com.zawisza.guitar_app/app_images", id + ".jpg");
             }
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
             imageView.setImageBitmap(b);

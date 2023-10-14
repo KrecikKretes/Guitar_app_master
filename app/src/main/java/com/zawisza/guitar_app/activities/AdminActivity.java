@@ -3,10 +3,7 @@ package com.zawisza.guitar_app.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,28 +17,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.Images;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
-import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Content.ContentFragment;
-import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
-import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
+import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Login.LogoutFragment;
+import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
+import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -63,9 +51,6 @@ public class AdminActivity extends AppCompatActivity{
     Boolean isLogoutFragment = false;
 
     private static final String TAG = "Guitar-Master - AdminActivity";
-
-    private Images images = new Images();
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -141,7 +126,7 @@ public class AdminActivity extends AppCompatActivity{
             titleTextView.setText("Ogłoszenie");
             backTextView.setText("Ogłoszenia");
             button_add.setVisibility(View.INVISIBLE);
-            button_logout.setBackgroundResource(Variables.getIcon_back());
+            button_logout.setBackgroundResource(R.drawable.back_icon);
         }
 
 
@@ -149,7 +134,7 @@ public class AdminActivity extends AppCompatActivity{
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        FirebaseMessaging.getInstance().subscribeToTopic(Variables.getTopic_to_android());
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.androidNotification));
 
         checkNotification();
 

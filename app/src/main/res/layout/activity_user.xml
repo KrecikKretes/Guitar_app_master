@@ -38,12 +38,12 @@
             android:id="@+id/activity_text"
             style="@style/ColorText"
 
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="70"
 
             android:gravity="center"
-            android:text="Ogłoszenia"
+            android:text="@string/titleGuitarPick"
             android:textAlignment="center"
 
             android:textStyle="bold"
@@ -58,6 +58,8 @@
 
             android:background="@drawable/plus_round_line_icon_3"
             android:layout_gravity="center_vertical"
+
+            android:visibility="invisible"
 
             android:scaleY="0.5"
             android:scaleX="0.5"
@@ -107,5 +109,3 @@
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

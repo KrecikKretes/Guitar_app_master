@@ -21,7 +21,7 @@ public class ImageActivity extends AppCompatActivity {
     Intent intent;
     Intent intent_to_change_activity;
 
-    private final String TAG = "Rajd - ImageActivity";
+    private final String TAG = "Guitar-Master - ImageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

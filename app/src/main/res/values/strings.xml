@@ -30,5 +30,7 @@
     <string name="titleMetronome">Metronome</string>
     <string name="titleSongBook">SongBook</string>
     <string name="titleLogin">Login</string>
+    <string name="titleLogout">Logout</string>
+    <string name="titleContent">Add accords</string>
 
 </resources>

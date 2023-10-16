@@ -21,6 +21,7 @@ import com.zawisza.guitar_app.fragments.Login.LoginFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
+import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -35,8 +36,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextView titleTextView;
     protected TextView backTextView;
 
-    protected BottomNavigationView bottomNavigationView;
+    private void changeTextInTextView(TextView textView, String text){
+        textView.setText(text);
+    }
 
+    protected BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,102 +103,92 @@ public abstract class BaseActivity extends AppCompatActivity {
             switch_number = 4;
 
             button_login.setOnClickListener(view1 -> {
-                changeSetting();
                 backToFragment(id_layout);
             });
 
             backTextView.setOnClickListener(view1 -> {
-                changeSetting();
                 backToFragment(id_layout);
             });
 
         });
 
         button_login.setOnClickListener(view -> {
-            switch_number = 0;
             backToFragment(id_layout);
         });
 
         backTextView.setOnClickListener(view -> {
-            switch_number = 0;
             backToFragment(id_layout);
         });
 
-    }
-
-    private void changeSetting(){
-        if(switch_number != 0 && switch_number != 4){
-            button_login.setBackgroundResource(R.drawable.person_profile_image_icon);
-            backTextView.setText(R.string.Empty);
-        }else{
-            button_login.setBackgroundResource(R.drawable.back_icon);
-            button_add.setVisibility(View.INVISIBLE);
-        }
-        button_login.setScaleX(0.5f);
-        button_login.setScaleY(0.5f);
     }
 
     //Change Fragment by click back button
     @SuppressLint("SetTextI18n")
     private void backToFragment(int id_layout){
-        if(backTextView.getText().equals(getString(R.string.Empty))){
-            titleTextView.setText(getString(R.string.titleLogin));
-            switch(switch_number){
-                case 1:
-                    backTextView.setText(getString(R.string.titleGuitarPick));
-                    break;
-                case 2:
-                    backTextView.setText(getString(R.string.titleMetronome));
-                    break;
-                case 3:
-                    backTextView.setText(getString(R.string.titleSongBook));
-                    break;
-            }
-            switch_number = 0;
-            replaceFragment(new LoginFragment(),2, id_layout);
-        }else{
-            switch(switch_number){
-                case 1:
-                    replaceFragment(new GuitarPickFragment(), 2, id_layout);
-                    break;
-                case 2:
-                    replaceFragment(new MetronomeFragment(), 2, id_layout);
-                    break;
-                case 3:
-                    replaceFragment(new SongbookFragment(), 2, id_layout);
-                    break;
+        if(titleTextView.getText().equals(getString(R.string.titleLogin)) || titleTextView.getText().equals(getString(R.string.titleLogout))){
+            Log.d(TAG, "Fragment");
+            button_login.setBackgroundResource(R.drawable.person_profile_image_icon);
+            String titleGuitarPick = getString(R.string.titleGuitarPick);
+            String titleMetronome = getString(R.string.titleMetronome);
+            String titleSongBook = getString(R.string.titleSongBook);
+            String text = (String) backTextView.getText();
+            if (titleGuitarPick.equals(text)) {
+                replaceFragment(new GuitarPickFragment(), 2, id_layout);
+            } else if (titleMetronome.equals(text)) {
+                replaceFragment(new MetronomeFragment(), 2, id_layout);
+            } else if (titleSongBook.equals(text)) {
+                replaceFragment(new SongbookFragment(), 2, id_layout);
             }
             backTextView.setText(getString(R.string.Empty));
+        }else{
+            Log.d(TAG, "LoginFragment or LogoutFragment");
+            if(id_layout == R.id.frameLayout){
+                titleTextView.setText(getString(R.string.titleLogin));
+            }else{
+                titleTextView.setText(getString(R.string.titleLogout));
+            }
+            button_login.setBackgroundResource(R.drawable.back_icon);
+            button_add.setVisibility(View.INVISIBLE);
+            switch(switch_number){
+                case 1:
+                    changeTextInTextView(backTextView,getString(R.string.titleGuitarPick));
+                    break;
+                case 2:
+                    changeTextInTextView(backTextView,getString(R.string.titleMetronome));
+                    break;
+                case 3:
+                    changeTextInTextView(backTextView,getString(R.string.titleSongBook));
+                    break;
+            }
+            replaceFragment(new LoginFragment(),2, id_layout);
         }
     }
 
 
     protected void replaceFragment(Fragment fragment, int direction, int id_layout){
         String tag = null;
-        switch(switch_number){
-            case 0:
-                tag = "Guitar-Master - LoginFragment";
-                titleTextView.setText(getString(R.string.titleLogin));
-                break;
-            case 1:
+        if(fragment instanceof LoginFragment) {
+            tag = "Guitar-Master - LoginFragment";
+            titleTextView.setText(getString(R.string.titleLogin));
+        }else {
+            backTextView.setText(getString(R.string.Empty));
+            if(fragment instanceof GuitarPickFragment) {
                 Log.d(TAG,"Change to GuitarPickFragment");
                 tag = "Guitar-Master - GuitarPickFragment";
                 titleTextView.setText(getString(R.string.titleGuitarPick));
-                backTextView.setText(getString(R.string.Empty));
-                break;
-            case 2:
-                Log.d(TAG,"Change to MetronomeFragment");
-                tag = "Guitar-Master - MetronomeFragment";
-                titleTextView.setText(getString(R.string.titleMetronome));
-                backTextView.setText(getString(R.string.Empty));
-                break;
-            case 3:
-
-                tag = "Guitar-Master - SongBookFragment";
-                titleTextView.setText(getString(R.string.titleSongBook));
-                backTextView.setText(getString(R.string.Empty));
-                break;
+            }else {
+                if (fragment instanceof MetronomeFragment) {
+                    Log.d(TAG, "Change to MetronomeFragment");
+                    tag = "Guitar-Master - MetronomeFragment";
+                    titleTextView.setText(getString(R.string.titleMetronome));
+                } else {
+                    Log.d(TAG, "Change to SongBookFragment");
+                    tag = "Guitar-Master - SongBookFragment";
+                    titleTextView.setText(getString(R.string.titleSongBook));
+                }
+            }
         }
+
 
         if(direction == 1){
             getSupportFragmentManager().beginTransaction()

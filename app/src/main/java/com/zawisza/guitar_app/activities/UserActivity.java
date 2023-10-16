@@ -44,6 +44,7 @@ public class UserActivity extends BaseActivity {
         titleTextView = findViewById(R.id.activity_text);
         backTextView = findViewById(R.id.back_text);
 
+
         Variables.setButton_add(button_add);
         Variables.setButton_login(button_login);
         Variables.setTitleTextView(titleTextView);

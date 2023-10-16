@@ -9,15 +9,11 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.zawisza.guitar_app.Functions;
-import com.zawisza.guitar_app.Images;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
@@ -28,9 +24,6 @@ import com.zawisza.guitar_app.fragments.Login.LogoutFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 
 public class AdminActivity extends BaseActivity{
 
@@ -38,8 +31,6 @@ public class AdminActivity extends BaseActivity{
     public static Context getContextOfApplication(){
         return contextOfApplication;
     }
-
-    Boolean isLogoutFragment = false;
 
     /*
     @SuppressLint("SetTextI18n")
@@ -113,7 +104,7 @@ public class AdminActivity extends BaseActivity{
         }
 
 
-        listeners();
+        listeners(R.id.frameLayout_login);
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 

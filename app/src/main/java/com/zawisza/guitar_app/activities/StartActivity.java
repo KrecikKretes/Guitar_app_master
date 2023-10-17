@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.auth.User;
 import com.zawisza.guitar_app.R;
 
 import java.util.Timer;
@@ -85,11 +84,8 @@ public class StartActivity extends AppCompatActivity {
                 Log.d(TAG, "Number : " + number);
                 editor.putInt(NAME, number);
             }
-            editor.commit();
-
-
+            editor.apply();
         }
-
 
         //Check if internet is online
         Timer t = new Timer();

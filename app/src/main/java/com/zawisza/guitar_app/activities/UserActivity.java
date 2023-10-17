@@ -17,7 +17,6 @@ import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
-import com.zawisza.guitar_app.fragments.Content.ContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
@@ -32,7 +31,6 @@ public class UserActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"Open StartActivity");
-
 
         userBinding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(userBinding.getRoot());
@@ -65,7 +63,7 @@ public class UserActivity extends BaseActivity {
 
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.androidNotification));
 
-        checkNotification();
+        checkNotification(R.id.frameLayout);
 
         // Create channel to show notifications.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -89,10 +87,6 @@ public class UserActivity extends BaseActivity {
 
         bindings();
     }
-
-
-
-
     //Change image in back button
 
 
@@ -144,41 +138,5 @@ public class UserActivity extends BaseActivity {
             }
             return true;
         });
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void checkNotification() {
-        if(getIntent().getExtras() != null){
-            Log.d(TAG,"Have Extras");
-            outerloop:
-            for(String key : getIntent().getExtras().keySet()){
-                Log.d(TAG, "key=  "+key);
-                if(key.equals("collection")){
-                    Log.d(TAG,"Have collection");
-                    Log.d(TAG, "Collection = "+getIntent().getExtras().getString("collection"));
-                    for(String key2 : getIntent().getExtras().keySet()) {
-                        if ((getIntent().getExtras().getString("collection")).equals(getString(R.string.collectionNotification))) {
-                            if (key2.equals("documentID")) {
-                                Log.d(TAG, "DocumentID found");
-                                Log.d(TAG, "DocumentID = " + getIntent().getExtras().getString("documentID"));
-                                Log.d(TAG, "Change to Content");
-                                replaceFragment(new ContentFragment(), getIntent().getExtras().getString("documentID"), R.id.frameLayout);
-                                titleTextView.setText("Ogłoszenie");
-                                backTextView.setText("Ogłoszenia");
-                                button_login.setBackgroundResource(R.drawable.back_icon);
-                                break outerloop;
-                            } else {
-                                Log.d(TAG, "Not found documentID");
-                            }
-                        }
-                    }
-                }else{
-                    Log.d(TAG,"Haven't collection");
-                }
-            }
-        }else{
-            Log.d(TAG,"Haven't Extras");
-            replaceFragment(new GuitarPickFragment(),1, R.id.frameLayout);
-        }
     }
 }

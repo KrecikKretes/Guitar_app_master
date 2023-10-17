@@ -8,9 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.zawisza.guitar_app.Functions;
@@ -20,7 +17,6 @@ import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
 import com.zawisza.guitar_app.fragments.Content.ContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
-import com.zawisza.guitar_app.fragments.Login.LogoutFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
@@ -74,8 +70,7 @@ public class AdminActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG,"Open Admin Activity");
+        Log.d(TAG,"Open AdminActivity");
 
         contextOfApplication = getApplicationContext();
 
@@ -87,7 +82,7 @@ public class AdminActivity extends BaseActivity{
         titleTextView = findViewById(R.id.activity_text);
         backTextView = findViewById(R.id.back_text);
 
-        replaceFragment(new GuitarPickFragment(), 1);
+        replaceFragment(new GuitarPickFragment(), 1, R.id.frameLayout_login);
 
         Variables.setButton_add(button_add);
         Variables.setButton_login(button_login);
@@ -95,7 +90,8 @@ public class AdminActivity extends BaseActivity{
         Variables.setBackTextView(backTextView);
 
         Intent intentFromFragment = getIntent();
-        if(intentFromFragment.getStringExtra("fragment") != null && intentFromFragment.getStringExtra("fragment").equals("Content")){
+        if(intentFromFragment.getStringExtra("fragment") != null &&
+                intentFromFragment.getStringExtra("fragment").equals("Content")){
             replaceFragment(new ContentFragment(), intentFromFragment.getStringExtra("documentID"), R.id.frameLayout_login);
             titleTextView.setText(getString(R.string.titleSongBook));
             backTextView.setText(getString(R.string.Empty));
@@ -110,85 +106,10 @@ public class AdminActivity extends BaseActivity{
 
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.androidNotification));
 
-        checkNotification();
-
+        checkNotification(R.id.frameLayout_login);
 
         bindings();
     }
-
-
-    @SuppressLint("SetTextI18n")
-    private void backToFragment(){
-        button_login.setBackgroundResource(R.drawable.person_profile_image_icon);
-        backTextView.setText(getString(R.string.Empty));
-        switch(switch_number){
-            case 0:
-                button_login.setBackgroundResource(R.drawable.back_icon);
-                titleTextView.setText("Wylogowanie");
-                button_add.setVisibility(View.INVISIBLE);
-
-                changeBackText();
-
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations( R.anim.enter_left_to_right, R.anim.exit_left_to_right,  R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                        .addToBackStack("Rajd - LogoutFragment")
-                        .replace(R.id.frameLayout_login, new LogoutFragment())
-                        .commit();
-                break;
-            case 1:
-                replaceFragment(new GuitarPickFragment(), 2);
-                button_add.setVisibility(View.INVISIBLE);
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations( R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right)
-                        .replace(R.id.frameLayout_login, new GuitarPickFragment())
-                        .commit();
-                break;
-
-            case 2:
-                titleTextView.setText("Zapisy");
-                button_add.setVisibility(View.VISIBLE);
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations( R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right)
-                        .replace(R.id.frameLayout_login, new MetronomeFragment())
-                        .commit();
-                break;
-            case 3:
-                titleTextView.setText("FAQ");
-                button_add.setVisibility(View.INVISIBLE);
-                getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations( R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right)
-                        .replace(R.id.frameLayout_login, new SongbookFragment())
-                        .commit();
-                break;
-            }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void changeBackText(){
-        switch(switch_number){
-            case 1:
-                backTextView.setText("Ogłoszenia");
-                break;
-            case 2:
-                backTextView.setText("Zapisy");
-                break;
-            case 3:
-                backTextView.setText("FAQ");
-                break;
-            case 4:
-                backTextView.setText("Harmonogram");
-                break;
-            case 5:
-                backTextView.setText("Trasy");
-                break;
-        }
-    }
-
-
-
-    //Change image in back button
-
-
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     private void bindings() {
@@ -200,7 +121,7 @@ public class AdminActivity extends BaseActivity{
                         SoundMeter.t1.cancel();
                         Log.d(TAG,"Change to GuitarPickFragment");
                         switch_number = 1;
-                        replaceFragment(new GuitarPickFragment(),1);
+                        replaceFragment(new GuitarPickFragment(),1, R.id.frameLayout_login);
                     }else{
                         functions.smoothBackToFirstItem(findViewById(R.id.rv));
                     }
@@ -210,11 +131,11 @@ public class AdminActivity extends BaseActivity{
                     if(switch_number != 2){
                         if (switch_number == 1) {
                             switch_number = 2;
-                            replaceFragment(new MetronomeFragment(), 2);
+                            replaceFragment(new MetronomeFragment(), 2, R.id.frameLayout_login);
                         }
                         else {
                             switch_number = 2;
-                            replaceFragment(new MetronomeFragment(), 1);
+                            replaceFragment(new MetronomeFragment(), 1, R.id.frameLayout_login);
                         }
                     }else{
                         functions.smoothBackToFirstItem(findViewById(R.id.rv));
@@ -227,11 +148,11 @@ public class AdminActivity extends BaseActivity{
                         Log.d(TAG,"Change to SongBookFragment");
                         if (switch_number < 3 ) {
                             switch_number = 3;
-                            replaceFragment(new SongbookFragment(), 2);
+                            replaceFragment(new SongbookFragment(), 2, R.id.frameLayout_login);
                         }
                         else {
                             switch_number = 3;
-                            replaceFragment(new SongbookFragment(), 1);
+                            replaceFragment(new SongbookFragment(), 1, R.id.frameLayout_login);
                         }
                     }else{
                         functions.smoothBackToFirstItem(findViewById(R.id.rv));
@@ -242,6 +163,7 @@ public class AdminActivity extends BaseActivity{
         });
     }
 
+    /*
     @SuppressLint("SetTextI18n")
     private void checkNotification() {
         String id;
@@ -313,7 +235,7 @@ public class AdminActivity extends BaseActivity{
                         } else {
                             if ((getIntent().getExtras().getString("collection")).equals("Enrollments")) {
                                 Log.d(TAG, "Enrollments found");
-                                replaceFragment(new MetronomeFragment(), 1);
+                                replaceFragment(new MetronomeFragment(), 1, R.id.frameLayout_login);
                                 break;
                             } else {
                                 Log.d(TAG, "Bad collection");
@@ -328,45 +250,5 @@ public class AdminActivity extends BaseActivity{
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void replaceFragment(Fragment fragment, int direction){
-        String tag = null;
-
-        switch(switch_number){
-            case 0:
-                tag = "Guitar-Master - LogoutFragment";
-                titleTextView.setText(getString(R.string.titleLogout));
-                button_add.setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                tag = "Guitar-Master - GuitarPickFragment";
-                titleTextView.setText(getString(R.string.titleGuitarPick));
-                button_add.setVisibility(View.INVISIBLE);
-                break;
-            case 2:
-                tag = "Guitar-Master - MetronomeFragment";
-                titleTextView.setText(getString(R.string.titleMetronome));
-                button_add.setVisibility(View.INVISIBLE);
-                break;
-            case 3:
-                tag = "Guitar-Master - SongBookFragment";
-                titleTextView.setText(getString(R.string.titleSongBook));
-                button_add.setVisibility(View.VISIBLE);
-                break;
-        }
-
-        if(direction == 1){
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations( R.anim.enter_left_to_right, R.anim.exit_left_to_right,  R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                    .addToBackStack(TAG)
-                    .replace(R.id.frameLayout_login, fragment, TAG)
-                    .commit();
-        }else{
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations( R.anim.enter_right_to_left, R.anim.exit_right_to_left, R.anim.enter_left_to_right,R.anim.exit_left_to_right)
-                    .addToBackStack(TAG)
-                    .replace(R.id.frameLayout_login, fragment, TAG)
-                    .commit();
-        }
-    }
+     */
 }

@@ -1,10 +1,5 @@
 package com.zawisza.guitar_app.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,16 +7,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
+import com.zawisza.guitar_app.fragments.Content.ContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Login.LoginFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -102,23 +102,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             switch_number = 4;
 
-            button_login.setOnClickListener(view1 -> {
-                backToFragment(id_layout);
-            });
+            button_login.setOnClickListener(view1 ->
+                    backToFragment(id_layout));
 
-            backTextView.setOnClickListener(view1 -> {
-                backToFragment(id_layout);
-            });
+            backTextView.setOnClickListener(view1 ->
+                    backToFragment(id_layout));
 
         });
 
-        button_login.setOnClickListener(view -> {
-            backToFragment(id_layout);
-        });
+        button_login.setOnClickListener(view ->
+                backToFragment(id_layout));
 
-        backTextView.setOnClickListener(view -> {
-            backToFragment(id_layout);
-        });
+        backTextView.setOnClickListener(view ->
+                backToFragment(id_layout));
 
     }
 
@@ -164,19 +160,55 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    protected void checkNotification(int id_layout) {
+        if(getIntent().getExtras() != null){
+            Log.d(TAG,"Have Extras");
+            outerloop:
+            for(String key : getIntent().getExtras().keySet()){
+                Log.d(TAG, "key=  "+key);
+                if(key.equals("collection")){
+                    Log.d(TAG,"Have collection");
+                    Log.d(TAG, "Collection = "+getIntent().getExtras().getString("collection"));
+                    for(String key2 : getIntent().getExtras().keySet()) {
+                        if ((getIntent().getExtras().getString("collection")).equals(getString(R.string.collectionNotification))) {
+                            if (key2.equals("documentID")) {
+                                Log.d(TAG, "DocumentID found");
+                                Log.d(TAG, "DocumentID = " + getIntent().getExtras().getString("documentID"));
+                                Log.d(TAG, "Change to Content");
+                                replaceFragment(new ContentFragment(), getIntent().getExtras().getString("documentID"), id_layout);
+                                titleTextView.setText(getIntent().getExtras().getString("songTitle"));
+                                backTextView.setText(getString(R.string.titleSongBook));
+                                button_login.setBackgroundResource(R.drawable.back_icon);
+                                break outerloop;
+                            } else {
+                                Log.d(TAG, "Not found documentID");
+                            }
+                        }
+                    }
+                }else{
+                    Log.d(TAG,"Haven't collection");
+                }
+            }
+        }else{
+            Log.d(TAG,"Haven't Extras");
+            replaceFragment(new GuitarPickFragment(),1, id_layout);
+        }
+    }
 
     protected void replaceFragment(Fragment fragment, int direction, int id_layout){
-        String tag = null;
+        String tag;
         if(fragment instanceof LoginFragment) {
             tag = "Guitar-Master - LoginFragment";
             titleTextView.setText(getString(R.string.titleLogin));
-        }else {
+        }else{
             backTextView.setText(getString(R.string.Empty));
             if(fragment instanceof GuitarPickFragment) {
                 Log.d(TAG,"Change to GuitarPickFragment");
                 tag = "Guitar-Master - GuitarPickFragment";
                 titleTextView.setText(getString(R.string.titleGuitarPick));
-            }else {
+                Log.d(TAG, String.valueOf(titleTextView.getText()));
+            }else{
                 if (fragment instanceof MetronomeFragment) {
                     Log.d(TAG, "Change to MetronomeFragment");
                     tag = "Guitar-Master - MetronomeFragment";
@@ -189,6 +221,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
 
+        Log.d(TAG, String.valueOf(titleTextView.getText()));
 
         if(direction == 1){
             getSupportFragmentManager().beginTransaction()

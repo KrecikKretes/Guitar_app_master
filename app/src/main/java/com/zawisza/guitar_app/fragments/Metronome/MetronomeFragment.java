@@ -2,6 +2,7 @@ package com.zawisza.guitar_app.fragments.Metronome;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.zawisza.guitar_app.R;
@@ -21,12 +24,12 @@ import java.util.TimerTask;
 
 public class MetronomeFragment extends Fragment {
 
-    private static final String TAG = "GuitarApp - MetronomeFragment";
+    private static final String TAG = "Guitar-Master - MetronomeFragment";
 
     private NumberPicker numberPicker;
     private Button startButton;
     private Button stopButton;
-    private Button lampButton1, lampButton2, lampButton3, lampButton4;
+    private ImageButton lampButton1, lampButton2, lampButton3, lampButton4;
 
     private Timer t1;
     private MediaPlayer mp1, mp2;
@@ -52,7 +55,7 @@ public class MetronomeFragment extends Fragment {
         lampButton4 = view.findViewById(R.id.metronome_fragment_button_lamp4);
 
         mp1 = MediaPlayer.create(getActivity(), R.raw.click);
-        mp2 = MediaPlayer.create(getActivity(), R.raw.click);
+        mp2 = MediaPlayer.create(getActivity(), R.raw.click2);
         saved_values = PreferenceManager.getDefaultSharedPreferences(context);
 
         numberPickerOption();
@@ -93,35 +96,19 @@ public class MetronomeFragment extends Fragment {
         });
 
         lampButton1.setOnClickListener(view -> {
-            if(lamps[0] == 2){
-                lamps[0] = 0;
-            }else{
-                lamps[0]++;
-            }
+            click(0, lampButton1);
         });
 
         lampButton2.setOnClickListener(view -> {
-            if(lamps[1] == 2){
-                lamps[1] = 0;
-            }else{
-                lamps[1]++;
-            }
+            click(1, lampButton2);
         });
 
         lampButton3.setOnClickListener(view -> {
-            if(lamps[2] == 2){
-                lamps[2] = 0;
-            }else{
-                lamps[2]++;
-            }
+            click(2, lampButton3);
         });
 
         lampButton4.setOnClickListener(view -> {
-            if(lamps[3] == 2){
-                lamps[3] = 0;
-            }else{
-                lamps[3]++;
-            }
+            click(3, lampButton4);
         });
     }
 
@@ -138,17 +125,21 @@ public class MetronomeFragment extends Fragment {
             @Override
             public void run() {
                 if(lamp[number_lamp] == 0){
+                    Log.d(TAG,"T" + number_lamp + " : mp1 \n" + time);
                     mp1.start();
+                }else{
+                    if(lamp[number_lamp] == 1 ) {
+                        Log.d(TAG,"T" + number_lamp + " : mp2 \n" + time);
+                        mp2.start();
+                    }
                 }
-                if(lamp[number_lamp] == 1 ) {
-                    mp2.start();
-                }
+
                 if(number_lamp == 3){
                     number_lamp=0;
                 }else{
                     number_lamp++;
                 }
-                Log.d(TAG,"T" + number_lamp + " : " + time);
+                //Log.d(TAG,"T" + number_lamp + " : " + time);
             }
         }, 0, (long) time);
     }
@@ -156,5 +147,19 @@ public class MetronomeFragment extends Fragment {
     private void offTimer(){
         number_lamp = 0;
         t1.cancel();
+    }
+
+    private void click(int lamp, ImageButton button){
+        if(lamps[lamp] == 2){
+            lamps[lamp] = 0;
+            button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.green));
+        }else{
+            lamps[lamp]++;
+            if(lamps[lamp] == 1){
+                button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.yellow));
+            }else{
+                button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red));
+            }
+        }
     }
 }

@@ -87,7 +87,6 @@ public class LoginFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void dialogDelete(){

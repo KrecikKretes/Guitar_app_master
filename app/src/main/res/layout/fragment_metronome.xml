@@ -46,8 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4"
-
         android:gravity="center"
 
         app:layout_constraintBottom_toTopOf="@+id/metronome_fragment_numberpicker"
@@ -55,39 +53,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/metronome_fragment_button_lamp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="0dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green"
             />
 
+        <View
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            />
 
-        <Button
+        <ImageButton
             android:id="@+id/metronome_fragment_button_lamp2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green"
             />
 
+        <View
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            />
 
-        <Button
+        <ImageButton
             android:id="@+id/metronome_fragment_button_lamp3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="60dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green"
             />
 
-        <Button
+        <View
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageButton
             android:id="@+id/metronome_fragment_button_lamp4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="90dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green"
             />
+
     </LinearLayout>
 
 

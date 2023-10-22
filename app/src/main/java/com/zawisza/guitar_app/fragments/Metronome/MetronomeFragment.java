@@ -1,5 +1,6 @@
 package com.zawisza.guitar_app.fragments.Metronome;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.zawisza.guitar_app.R;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +33,8 @@ public class MetronomeFragment extends Fragment {
     private Button startButton;
     private Button stopButton;
     private ImageButton lampButton1, lampButton2, lampButton3, lampButton4;
+
+    private Button plusOneButton, plusFiveButton, minusOneButton, minusFiveButton;
 
     private Timer t1;
     private MediaPlayer mp1, mp2;
@@ -53,6 +58,11 @@ public class MetronomeFragment extends Fragment {
         lampButton2 = view.findViewById(R.id.metronome_fragment_button_lamp2);
         lampButton3 = view.findViewById(R.id.metronome_fragment_button_lamp3);
         lampButton4 = view.findViewById(R.id.metronome_fragment_button_lamp4);
+
+        minusOneButton = view.findViewById(R.id.metronome_fragment_button_minus1);
+        minusFiveButton = view.findViewById(R.id.metronome_fragment_button_minus5);
+        plusOneButton = view.findViewById(R.id.metronome_fragment_button_plus1);
+        plusFiveButton = view.findViewById(R.id.metronome_fragment_button_plus5);
 
         mp1 = MediaPlayer.create(getActivity(), R.raw.click);
         mp2 = MediaPlayer.create(getActivity(), R.raw.click2);
@@ -110,6 +120,51 @@ public class MetronomeFragment extends Fragment {
         lampButton4.setOnClickListener(view -> {
             click(3, lampButton4);
         });
+
+        minusOneButton.setOnClickListener(view -> {
+            //numberPicker.setValue(numberPicker.getValue() - 1);
+            changeValueByOne(numberPicker,false);
+        });
+
+        minusFiveButton.setOnClickListener(view -> {
+            Log.d(TAG,"Przed : " + numberPicker.getValue());
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                int i = 0;
+                @Override
+                public void run() {
+                    //changeValueByOne(numberPicker,false);
+                    Log.d(TAG,"Po : " + numberPicker.getValue());
+                    i++;
+                    if(i == 5){
+                        t.cancel();
+                    }
+                }
+            }, 0, 200);
+            Log.d(TAG,"Po : " + numberPicker.getValue());
+        });
+
+        plusOneButton.setOnClickListener(view -> {
+            changeValueByOne(numberPicker,true);
+        });
+
+        plusFiveButton.setOnClickListener(view -> {
+            Log.d(TAG,"Przed : " + numberPicker.getValue());
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                int i = 0;
+                @Override
+                public void run() {
+                    changeValueByOne(numberPicker,true);
+                    Log.d(TAG,"Po : " + numberPicker.getValue());
+                    i++;
+                    if(i == 5){
+                        t.cancel();
+                    }
+                }
+            }, 0, 200);
+            Log.d(TAG,"Po : " + numberPicker.getValue());
+        });
     }
 
     private void numberPickerOption(){
@@ -160,6 +215,24 @@ public class MetronomeFragment extends Fragment {
             }else{
                 button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red));
             }
+        }
+    }
+
+
+    @SuppressLint("DiscouragedPrivateApi")
+    private void changeValueByOne(final NumberPicker higherPicker, final boolean increment) {
+
+        Method method;
+        try {
+            // refelction call for
+            // higherPicker.changeValueByOne(true);
+            method = higherPicker.getClass().getDeclaredMethod("changeValueByOne", boolean.class);
+            method.setAccessible(true);
+            method.invoke(higherPicker, increment);
+
+        } catch (final NoSuchMethodException | IllegalArgumentException | IllegalAccessException |
+                       InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -8,28 +8,154 @@
     android:id="@+id/frameLayoutMetronome"
     >
 
-    <NumberPicker
-        android:id="@+id/metronome_fragment_numberpicker"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttons_lights"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="20dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/metronome_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/metronome_fragment_button_lamp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green" />
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="1dp" />
+
+        <ImageButton
+            android:id="@+id/metronome_fragment_button_lamp2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green" />
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="1dp" />
+
+        <ImageButton
+            android:id="@+id/metronome_fragment_button_lamp3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green" />
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="1dp" />
+
+        <ImageButton
+            android:id="@+id/metronome_fragment_button_lamp4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/green" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/metronome_center"
+
+        android:gravity="center"
+
 
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/buttons_lights"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metronome_fragment_button_minus1"
+                android:text="-1"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metronome_fragment_button_minus5"
+                android:text="-5"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1dp"/>
+
+        <NumberPicker
+            android:id="@+id/metronome_fragment_numberpicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metronome_fragment_button_plus1"
+                android:text="+1"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metronome_fragment_button_plus5"
+                android:text="+5"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/metronome_center"
+    android:layout_marginTop="20dp"
+    android:gravity="center"
+    >
 
     <Button
         android:id="@+id/metronome_fragment_button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="Start"
+        />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metronome_fragment_numberpicker"
-        android:layout_marginTop="20dp"
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
         />
 
     <Button
@@ -37,66 +163,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metronome_fragment_button_start" />
+        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
 
-        app:layout_constraintBottom_toTopOf="@+id/metronome_fragment_numberpicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+</LinearLayout>
 
-        <ImageButton
-            android:id="@+id/metronome_fragment_button_lamp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/green"
-            />
 
-        <View
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            />
 
-        <ImageButton
-            android:id="@+id/metronome_fragment_button_lamp2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/green"
-            />
 
-        <View
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            />
 
-        <ImageButton
-            android:id="@+id/metronome_fragment_button_lamp3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/green"
-            />
 
-        <View
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            />
-
-        <ImageButton
-            android:id="@+id/metronome_fragment_button_lamp4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/green"
-            />
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

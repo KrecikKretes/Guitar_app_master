@@ -58,6 +58,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
 
+            android:visibility="invisible"
+
             android:background="@drawable/plus_round_line_icon_3"
             android:layout_gravity="center_vertical"
 

@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
@@ -113,7 +112,6 @@ public class AdminActivity extends BaseActivity{
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     private void bindings() {
-        Functions functions = new Functions();
         adminBinding.navViewLogin.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_guitarpick:
@@ -123,7 +121,7 @@ public class AdminActivity extends BaseActivity{
                         switch_number = 1;
                         replaceFragment(new GuitarPickFragment(),1, R.id.frameLayout_login);
                     }else{
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
+                        smoothBackToFirstItem(findViewById(R.id.rv));
                     }
                     break;
 
@@ -138,7 +136,7 @@ public class AdminActivity extends BaseActivity{
                             replaceFragment(new MetronomeFragment(), 1, R.id.frameLayout_login);
                         }
                     }else{
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
+                        smoothBackToFirstItem(findViewById(R.id.rv));
                     }
                     break;
 
@@ -155,7 +153,7 @@ public class AdminActivity extends BaseActivity{
                             replaceFragment(new SongbookFragment(), 1, R.id.frameLayout_login);
                         }
                     }else{
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
+                        smoothBackToFirstItem(findViewById(R.id.rv));
                     }
                     break;
             }

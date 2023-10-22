@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.zawisza.guitar_app.R;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,7 +26,7 @@ public class GuitarPickFragment extends Fragment{
     private Context context;
     private SoundMeter soundMete;
 
-    private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
     private Tuning tuning;
     private int pitchIndex;
@@ -62,7 +63,7 @@ public class GuitarPickFragment extends Fragment{
                 double interval = 1200 * Utils.log2(freq / pitch.frequency); // interval in cents
                 final float needlePos = (float) (interval / 100);
                 final boolean goodPitch = Math.abs(interval) < 5.0;
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {

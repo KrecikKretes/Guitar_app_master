@@ -35,9 +35,7 @@ public class Functions {
     private final String TAG ="Guitar-Master - Functions";
     private Context context;
 
-    public void smoothBackToFirstItem(RecyclerView recyclerView){
-        recyclerView.smoothScrollToPosition(0);
-    }
+
 
     public String newLinesRepairer(String text){
         text = text.replace("\\n ", Objects.requireNonNull(System.getProperty("line.separator")));

@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
@@ -30,7 +29,7 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"Open StartActivity");
+        Log.d(TAG, "Open StartActivity");
 
         userBinding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(userBinding.getRoot());
@@ -51,8 +50,8 @@ public class UserActivity extends BaseActivity {
 
         //Open SongBookFragment clicking notification
         Intent intentFromFragment = getIntent();
-        if(intentFromFragment.getStringExtra("fragment") != null &&
-                intentFromFragment.getStringExtra("fragment").equals("Content")){
+        if (intentFromFragment.getStringExtra("fragment") != null &&
+                intentFromFragment.getStringExtra("fragment").equals("Content")) {
             replaceFragment(new SongbookFragment(), intentFromFragment.getStringExtra("documentID"), R.id.frameLayout);
             titleTextView.setText(getString(R.string.titleSongBook));
             backTextView.setText(getString(R.string.Empty));
@@ -67,7 +66,7 @@ public class UserActivity extends BaseActivity {
 
         // Create channel to show notifications.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId  =  getString(R.string.channelId);
+            String channelId = getString(R.string.channelId);
             String channelName = getString(R.string.channelName);
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -87,27 +86,22 @@ public class UserActivity extends BaseActivity {
 
         bindings();
     }
-    //Change image in back button
-
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     private void bindings() {
-        Functions functions = new Functions();
         userBinding.navView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.nav_guitarpick:
-                    if(switch_number != 1){
-                        SoundMeter.t1.cancel();
-                        Log.d(TAG,"Change to GuitarPickFragment");
+                    if(switch_number != 1) {
+                        Log.d(TAG, "Change to GuitarPickFragment");
                         switch_number = 1;
-                        replaceFragment(new GuitarPickFragment(),1, R.id.frameLayout);
-                    } else {
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
+                        replaceFragment(new GuitarPickFragment(), 1, R.id.frameLayout);
                     }
                     break;
-
                 case R.id.nav_metronome:
                     if (switch_number != 2) {
+                        SoundMeter.t1.cancel();
+                        Log.d(TAG,"Change to MetronomeFragment");
                         if (switch_number != 1) {
                             switch_number = 2;
                             replaceFragment(new MetronomeFragment(), 1, R.id.frameLayout);
@@ -115,13 +109,13 @@ public class UserActivity extends BaseActivity {
                             switch_number = 2;
                             replaceFragment(new MetronomeFragment(), 2, R.id.frameLayout);
                         }
-                    }else{
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
                     }
                     break;
 
                 case R.id.nav_songbook:
-                    if (switch_number != 3) {
+                    if (switch_number == 3) {
+                        smoothBackToFirstItem(findViewById(R.id.rv));
+                    }else{
                         SoundMeter.t1.cancel();
                         Log.d(TAG,"Change to SongBookFragment");
                         if (switch_number > 3 ) {
@@ -131,8 +125,6 @@ public class UserActivity extends BaseActivity {
                             switch_number = 3;
                             replaceFragment(new SongbookFragment(), 2, R.id.frameLayout);
                         }
-                    }else{
-                        functions.smoothBackToFirstItem(findViewById(R.id.rv));
                     }
                     break;
             }

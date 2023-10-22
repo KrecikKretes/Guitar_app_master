@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zawisza.guitar_app.R;
@@ -19,6 +20,7 @@ import com.zawisza.guitar_app.databinding.ActivityUserBinding;
 import com.zawisza.guitar_app.fragments.Content.ContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Login.LoginFragment;
+import com.zawisza.guitar_app.fragments.Login.LogoutFragment;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
@@ -65,8 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentManager mgr = getSupportFragmentManager();
         if(mgr.getBackStackEntryCount() == 1 ||
                 mgr.getBackStackEntryAt(mgr.getBackStackEntryCount() - 2).getName() == null){
-            super.onBackPressed();
-            super.onBackPressed();
+            this.finishAffinity();
         }else{
             Log.d(TAG,mgr.getBackStackEntryAt(mgr.getBackStackEntryCount() - 2).getName());
             switch (Objects.requireNonNull(
@@ -79,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     titleTextView.setText(R.string.titleMetronome);
                     mgr.popBackStack();
                     break;
-                case "Guitar-Master - SongbookFragment":
+                case "Guitar-Master - SongBookFragment":
                     titleTextView.setText(R.string.titleSongBook);
                     mgr.popBackStack();
                     break;
@@ -138,11 +139,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             backTextView.setText(getString(R.string.Empty));
         }else{
             Log.d(TAG, "LoginFragment or LogoutFragment");
-            if(id_layout == R.id.frameLayout){
-                titleTextView.setText(getString(R.string.titleLogin));
-            }else{
-                titleTextView.setText(getString(R.string.titleLogout));
-            }
             button_login.setBackgroundResource(R.drawable.back_icon);
             button_add.setVisibility(View.INVISIBLE);
             switch(switch_number){
@@ -156,7 +152,18 @@ public abstract class BaseActivity extends AppCompatActivity {
                     changeTextInTextView(backTextView,getString(R.string.titleSongBook));
                     break;
             }
-            replaceFragment(new LoginFragment(),2, id_layout);
+            switch_number = 0;
+            if(id_layout == R.id.frameLayout){
+                Log.d(TAG,"LoginFragment");
+                titleTextView.setText(getString(R.string.titleLogin));
+                replaceFragment(new LoginFragment(),2, id_layout);
+
+            }else{
+                Log.d(TAG,"LogoutFragment");
+                titleTextView.setText(getString(R.string.titleLogout));
+                replaceFragment(new LogoutFragment(),2, id_layout);
+
+            }
         }
     }
 
@@ -196,18 +203,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void smoothBackToFirstItem(RecyclerView recyclerView){
+        recyclerView.smoothScrollToPosition(0);
+    }
+
     protected void replaceFragment(Fragment fragment, int direction, int id_layout){
         String tag;
         if(fragment instanceof LoginFragment) {
             tag = "Guitar-Master - LoginFragment";
             titleTextView.setText(getString(R.string.titleLogin));
         }else{
+            button_login.setBackgroundResource(R.drawable.person_profile_image_icon);
             backTextView.setText(getString(R.string.Empty));
             if(fragment instanceof GuitarPickFragment) {
                 Log.d(TAG,"Change to GuitarPickFragment");
                 tag = "Guitar-Master - GuitarPickFragment";
                 titleTextView.setText(getString(R.string.titleGuitarPick));
-                Log.d(TAG, String.valueOf(titleTextView.getText()));
             }else{
                 if (fragment instanceof MetronomeFragment) {
                     Log.d(TAG, "Change to MetronomeFragment");
@@ -220,8 +231,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             }
         }
-
-        Log.d(TAG, String.valueOf(titleTextView.getText()));
 
         if(direction == 1){
             getSupportFragmentManager().beginTransaction()

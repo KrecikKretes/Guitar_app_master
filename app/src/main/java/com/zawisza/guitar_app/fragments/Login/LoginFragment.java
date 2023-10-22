@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.activities.AdminActivity;
+import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
 
 import org.apache.commons.io.FileUtils;
 
@@ -42,6 +43,7 @@ public class LoginFragment extends Fragment {
 
 
     private void loginUser(String txt_email, String txt_password) {
+        SoundMeter.t1.cancel();
         auth.signInWithEmailAndPassword(txt_email,txt_password).addOnSuccessListener(authResult -> {
             Toast.makeText(context, "Zalogowano!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(context, AdminActivity.class));

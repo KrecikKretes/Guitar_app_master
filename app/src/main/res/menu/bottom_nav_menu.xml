@@ -24,6 +24,12 @@
             android:title="@string/songbook"
             />
 
+        <item
+            android:id="@+id/nav_chords"
+            android:icon="@drawable/chords_icon"
+            android:title="@string/chords"
+            />
+
     </group>
 
 

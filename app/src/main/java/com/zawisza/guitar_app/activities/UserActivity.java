@@ -16,6 +16,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
+import com.zawisza.guitar_app.fragments.Chords.ChordsFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
@@ -98,6 +99,7 @@ public class UserActivity extends BaseActivity {
                         replaceFragment(new GuitarPickFragment(), 1, R.id.frameLayout);
                     }
                     break;
+
                 case R.id.nav_metronome:
                     if (switch_number != 2) {
                         SoundMeter.t1.cancel();
@@ -127,6 +129,21 @@ public class UserActivity extends BaseActivity {
                         }
                     }
                     break;
+
+                case R.id.nav_chords:
+                    if (switch_number == 4) {
+                        smoothBackToFirstItem(findViewById(R.id.rv));
+                    }else{
+                        SoundMeter.t1.cancel();
+                        Log.d(TAG,"Change to ChordsFragment");
+                        if (switch_number > 4 ) {
+                            switch_number = 4;
+                            replaceFragment(new ChordsFragment(), 1, R.id.frameLayout);
+                        } else {
+                            switch_number = 4;
+                            replaceFragment(new ChordsFragment(), 2, R.id.frameLayout);
+                        }
+                    }
             }
             return true;
         });

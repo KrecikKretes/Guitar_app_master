@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.Variables;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
-import com.zawisza.guitar_app.fragments.Content.ContentFragment;
+import com.zawisza.guitar_app.fragments.Content.SongBookContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.SoundMeter;
 import com.zawisza.guitar_app.fragments.Metronome.MetronomeFragment;
@@ -91,7 +91,7 @@ public class AdminActivity extends BaseActivity{
         Intent intentFromFragment = getIntent();
         if(intentFromFragment.getStringExtra("fragment") != null &&
                 intentFromFragment.getStringExtra("fragment").equals("Content")){
-            replaceFragment(new ContentFragment(), intentFromFragment.getStringExtra("documentID"), R.id.frameLayout_login);
+            replaceFragment(new SongBookContentFragment(), intentFromFragment.getStringExtra("documentID"), R.id.frameLayout_login);
             titleTextView.setText(getString(R.string.titleSongBook));
             backTextView.setText(getString(R.string.Empty));
             button_add.setVisibility(View.VISIBLE);

@@ -17,7 +17,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zawisza.guitar_app.R;
 import com.zawisza.guitar_app.databinding.ActivityAdminBinding;
 import com.zawisza.guitar_app.databinding.ActivityUserBinding;
-import com.zawisza.guitar_app.fragments.Content.ContentFragment;
+import com.zawisza.guitar_app.fragments.Chords.ChordsFragment;
+import com.zawisza.guitar_app.fragments.Content.SongBookContentFragment;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Login.LoginFragment;
 import com.zawisza.guitar_app.fragments.Login.LogoutFragment;
@@ -84,6 +85,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                     titleTextView.setText(R.string.titleSongBook);
                     mgr.popBackStack();
                     break;
+                case "Guitar-Master - ChordsFragment":
+                    titleTextView.setText(R.string.titleChords);
+                    mgr.popBackStack();
+                    break;
                 default:
                     break;
             }
@@ -128,6 +133,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             String titleGuitarPick = getString(R.string.titleGuitarPick);
             String titleMetronome = getString(R.string.titleMetronome);
             String titleSongBook = getString(R.string.titleSongBook);
+            String titleChords = getString(R.string.titleChords);
             String text = (String) backTextView.getText();
             if (titleGuitarPick.equals(text)) {
                 replaceFragment(new GuitarPickFragment(), 2, id_layout);
@@ -135,6 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 replaceFragment(new MetronomeFragment(), 2, id_layout);
             } else if (titleSongBook.equals(text)) {
                 replaceFragment(new SongbookFragment(), 2, id_layout);
+            } else if (titleChords.equals(text)) {
+                replaceFragment(new ChordsFragment(), 2, id_layout);
             }
             backTextView.setText(getString(R.string.Empty));
         }else{
@@ -150,6 +158,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                     break;
                 case 3:
                     changeTextInTextView(backTextView,getString(R.string.titleSongBook));
+                    break;
+                case 4:
+                    changeTextInTextView(backTextView,getString(R.string.titleChords));
                     break;
             }
             switch_number = 0;
@@ -183,7 +194,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 Log.d(TAG, "DocumentID found");
                                 Log.d(TAG, "DocumentID = " + getIntent().getExtras().getString("documentID"));
                                 Log.d(TAG, "Change to Content");
-                                replaceFragment(new ContentFragment(), getIntent().getExtras().getString("documentID"), id_layout);
+                                replaceFragment(new SongBookContentFragment(), getIntent().getExtras().getString("documentID"), id_layout);
                                 titleTextView.setText(getIntent().getExtras().getString("songTitle"));
                                 backTextView.setText(getString(R.string.titleSongBook));
                                 button_login.setBackgroundResource(R.drawable.back_icon);
@@ -225,9 +236,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                     tag = "Guitar-Master - MetronomeFragment";
                     titleTextView.setText(getString(R.string.titleMetronome));
                 } else {
-                    Log.d(TAG, "Change to SongBookFragment");
-                    tag = "Guitar-Master - SongBookFragment";
-                    titleTextView.setText(getString(R.string.titleSongBook));
+                    if(fragment instanceof SongbookFragment){
+                        Log.d(TAG, "Change to SongBookFragment");
+                        tag = "Guitar-Master - SongBookFragment";
+                        titleTextView.setText(getString(R.string.titleSongBook));
+                    }else{
+                        Log.d(TAG, "Change to ChordsFragment");
+                        tag = "Guitar-Master - ChordsFragment";
+                        titleTextView.setText(getString(R.string.titleChords));
+                    }
                 }
             }
         }

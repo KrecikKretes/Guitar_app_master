@@ -35,8 +35,12 @@ import com.zawisza.guitar_app.activities.ImageActivity;
 import com.zawisza.guitar_app.fragments.GuitarPick.GuitarPickFragment;
 import com.zawisza.guitar_app.fragments.Songbook.SongbookFragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class ContentFragment extends Fragment {
+
+public class SongBookContentFragment extends Fragment {
 
     private static final String TAG = "Guitar-Master - ContentFragment";
 
@@ -109,10 +113,10 @@ public class ContentFragment extends Fragment {
             for (int i = 0; i + 1 < accords.length(); i+=3) {
                 Log.d(TAG, String.valueOf(i));
                 if(accords.charAt(i + 2) == '.' && i ==0){
-                    b1 =  writeTextOnDrawable(R.drawable.mid,accords.charAt(i), accords.charAt(i + 1), bitmapStart);
+                    b1 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), bitmapStart);
                 }
                 if(accords.charAt(i + 2) == '.' && i !=0){
-                    b2 =  writeTextOnDrawable(R.drawable.mid,accords.charAt(i), accords.charAt(i + 1), b1);
+                    b2 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), b1);
                     b1 = b2;
                 }
 
@@ -194,11 +198,14 @@ public class ContentFragment extends Fragment {
         Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
                 .copy(Bitmap.Config.ARGB_8888, true);
 
+        ArrayList<Integer> arrayList = new ArrayList(Arrays.asList(1,2,3,4,5,6));
+        arrayList.remove(Integer.valueOf(String.valueOf(line)));
+
         Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
 
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         paint.setTypeface(tf);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(convertToPixels(context, 15));

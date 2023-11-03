@@ -16,9 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.zawisza.guitar_app.Functions;
 import com.zawisza.guitar_app.R;
-import com.zawisza.guitar_app.fragments.Content.ContentFragment;
+import com.zawisza.guitar_app.fragments.Content.SongBookContentFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +41,6 @@ public class SongbookFragment extends Fragment implements SelectListener{
     private FirebaseAuth auth;
     private final HashMap<Songbook, String> map = new HashMap<>();
 
-    private final Functions functions = new Functions();
-
     private void setUpRecyclerView(View view) {
 
         songbookArrayList = new ArrayList<>();
@@ -54,11 +51,7 @@ public class SongbookFragment extends Fragment implements SelectListener{
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recyclerAdapter);
 
-
-
         EventChangeListener();
-
-
     }
 
 
@@ -151,7 +144,7 @@ public class SongbookFragment extends Fragment implements SelectListener{
     }
 
     public void replaceFragments(int id_layout, Songbook songbook1) {
-        Fragment fragment = new ContentFragment();
+        Fragment fragment = new SongBookContentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", songbook1.getTitle());
         bundle.putString("accords", songbook1.getAccords());

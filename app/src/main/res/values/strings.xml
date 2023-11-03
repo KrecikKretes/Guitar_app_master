@@ -11,6 +11,7 @@
     <string name="metronome">Metronome</string>
     <string name="songbook">Songbook</string>
     <string name="guitarpick">Guitar Pick</string>
+    <string name="chords">Chords</string>
 
 
     <string name="standard_tuning_val" translatable="false">Standard</string>
@@ -25,12 +26,15 @@
     <string name="androidNotification">"announcements_android"</string>
     <string name="iosNotification">announcements_ios</string>
     <string name="collectionNotification">SongBook</string>
+    <string name="collectionChords">Chords</string>
 
     <string name="titleGuitarPick">Guitar Pick</string>
     <string name="titleMetronome">Metronome</string>
     <string name="titleSongBook">SongBook</string>
+    <string name="titleChords">Chords</string>
     <string name="titleLogin">Login</string>
     <string name="titleLogout">Logout</string>
     <string name="titleContent">Add accords</string>
+    <string name="contentDescription">a</string>
 
 </resources>

@@ -70,16 +70,6 @@
                 />
 
 
-            <TextView
-                android:id="@+id/content_show"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                style="@style/ColorText"
-                />
-
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -88,7 +78,9 @@
                 <ImageView
                     android:id="@+id/imageview_show"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    />
 
             </HorizontalScrollView>
         </LinearLayout>

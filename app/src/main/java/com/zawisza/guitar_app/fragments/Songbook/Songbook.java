@@ -10,6 +10,7 @@ public class Songbook implements Comparable<Songbook>{
     private String title;
     private String accords;
     private boolean tabs;
+    private String rate;
 
     public Songbook() {
     }
@@ -20,7 +21,14 @@ public class Songbook implements Comparable<Songbook>{
         this.accords = accords;
         this.tabs = tabs;
     }
-    
+
+    public Songbook(int no, String title, String accords, boolean tabs, String rate) {
+        this.no = no;
+        this.title = title;
+        this.accords = accords;
+        this.tabs = tabs;
+        this.rate = rate;
+    }
 
     public int getNo() {
         return no;

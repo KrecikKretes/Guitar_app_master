@@ -57,6 +57,8 @@ public class SongBookContentFragment extends Fragment {
 
     private String title;
 
+    private Bitmap bitmap, bitmapFull;
+
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @SuppressLint("MissingInflatedId")
@@ -102,28 +104,54 @@ public class SongBookContentFragment extends Fragment {
         Bitmap b1 = null;
         Bitmap b2 = null;
         Log.d(TAG, String.valueOf(isTabs));
+
+        Canvas canvas = null;
+        int accordsLength  = (accords.length() / 39) + 1;
+        int temp = -1;
         if(isTabs){
+
             Bitmap bitmapStart = BitmapFactory.decodeResource(getResources(), R.drawable.start)
                     .copy(Bitmap.Config.ARGB_8888, true);
             Bitmap bitmapEnd = BitmapFactory.decodeResource(getResources(), R.drawable.end)
                     .copy(Bitmap.Config.ARGB_8888, true);
 
+            for(int x = 0; x < accords.length(); x+=39){
 
-
-            for (int i = 0; i + 1 < accords.length(); i+=3) {
-                Log.d(TAG, String.valueOf(i));
-                if(accords.charAt(i + 2) == '.' && i ==0){
-                    b1 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), bitmapStart);
+                temp++;
+                //Log.d(TAG, String.valueOf(accords.length()));
+                int temp2;
+                if(accords.length() - x >= 39){
+                    temp2 = 39;
+                }else{
+                    temp2 = accords.length() - x;
                 }
-                if(accords.charAt(i + 2) == '.' && i !=0){
-                    b2 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), b1);
-                    b1 = b2;
+                for (int i = 0; i + 1 < temp2; i+=3) {
+                    Log.d(TAG, String.valueOf(i));
+                    if(accords.charAt(i + 2) == '.' && i ==0){
+                        b1 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), bitmapStart);
+                    }
+                    if(accords.charAt(i + 2) == '.' && i !=0){
+                        b2 =  writeTextOnDrawable(R.drawable.mid2,accords.charAt(i), accords.charAt(i + 1), b1);
+                        b1 = b2;
+                    }
+                }
+                bitmap = mergeBitmap(b1,bitmapEnd);
+
+                if(x == 0) {
+                    bitmapFull = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight() * accordsLength, Bitmap.Config.ARGB_8888);
+                    canvas = new Canvas(bitmapFull);
                 }
 
+                if(temp2 == 39 || x == 0){
+                    canvas.drawBitmap(bitmap, 0 , bitmap.getHeight() * temp, null);
+                }else{
+                    int marginLeft = (bitmapFull.getWidth() - bitmap.getWidth()) / 2;
+                    canvas.drawBitmap(bitmap,marginLeft, bitmap.getHeight() * temp, null);
+                }
             }
-            imageView.setImageBitmap(mergeBitmap(b1,bitmapEnd));
 
-
+            Log.d(TAG, "bitmapFull Width : " + bitmapFull.getWidth());
+            imageView.setImageBitmap(bitmapFull);
         }
 
 
@@ -231,24 +259,51 @@ public class SongBookContentFragment extends Fragment {
 
         int yPos;
 
+        for(Integer i : arrayList){
+            switch (i){
+                case 1:
+                    yPos = 15;
+                    break;
+                case 2:
+                    yPos = 45;
+                    break;
+                case 3:
+                    yPos = 75;
+                    break;
+                case 4:
+                    yPos = 105;
+                    break;
+                case 5:
+                    yPos = 135;
+                    break;
+                case 6:
+                    yPos = 165;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + line);
+            }
+            yPos = (int) ((yPos + 12) * 2 );
+            canvas.drawText("--", xPos, yPos , paint);
+        }
+
         switch (line){
             case '1':
-                yPos = 30;
+                yPos = 15;
                 break;
             case '2':
-                yPos = 75;
+                yPos = 45;
                 break;
             case '3':
-                yPos = 120;
+                yPos = 75;
                 break;
             case '4':
-                yPos = 165;
+                yPos = 105;
                 break;
             case '5':
-                yPos = 210;
+                yPos = 135;
                 break;
             case '6':
-                yPos = 255;
+                yPos = 165;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + line);

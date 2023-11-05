@@ -149,6 +149,7 @@ public class SongbookFragment extends Fragment implements SelectListener{
         bundle.putString("title", songbook1.getTitle());
         bundle.putString("accords", songbook1.getAccords());
         bundle.putBoolean("isTabs", songbook1.isTabs());
+        bundle.putString("rate", songbook1.getRate());
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()

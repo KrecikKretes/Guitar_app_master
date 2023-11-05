@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,6 +85,7 @@ public class SongBookContentFragment extends Fragment {
         title = bundle.getString("title");
         String accords = bundle.getString("accords");
         Boolean isTabs = bundle.getBoolean("isTabs");
+        String rate = bundle.getString("rate");
 
         titleTextView = view.findViewById(R.id.title_show);
         content = view.findViewById(R.id.content_show);
@@ -152,6 +154,16 @@ public class SongBookContentFragment extends Fragment {
 
             Log.d(TAG, "bitmapFull Width : " + bitmapFull.getWidth());
             imageView.setImageBitmap(bitmapFull);
+        }else{
+            switch (rate){
+                case "3/4":
+                    Bitmap bitmapRate = BitmapFactory.decodeResource(getResources(), R.drawable.rate3_4)
+                            .copy(Bitmap.Config.ARGB_8888, true);
+                    imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmapRate, 150,75, false));
+                    break;
+                default:
+                    Log.d(TAG,"Rate not found");
+            }
         }
 
 
@@ -321,8 +333,7 @@ public class SongBookContentFragment extends Fragment {
 
     }
 
-    public Bitmap mergeBitmap(Bitmap fr, Bitmap sc)
-    {
+    public Bitmap mergeBitmap(Bitmap fr, Bitmap sc) {
 
         Bitmap comboBitmap;
 

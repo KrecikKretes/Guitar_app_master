@@ -86,6 +86,7 @@ public class SongBookContentFragment extends Fragment {
         String accords = bundle.getString("accords");
         Boolean isTabs = bundle.getBoolean("isTabs");
         String rate = bundle.getString("rate");
+        String text = bundle.getString("text");
 
         titleTextView = view.findViewById(R.id.title_show);
         content = view.findViewById(R.id.content_show);
@@ -102,7 +103,6 @@ public class SongBookContentFragment extends Fragment {
         Log.d(TAG, "Title = " + title);
 
         titleTextView.setText(functions.newLinesRepairer(title));
-        content.setText(functions.newLinesRepairer(accords));
         Bitmap b1 = null;
         Bitmap b2 = null;
         Log.d(TAG, String.valueOf(isTabs));
@@ -111,6 +111,7 @@ public class SongBookContentFragment extends Fragment {
         int accordsLength  = (accords.length() / 39) + 1;
         int temp = -1;
         if(isTabs){
+            content.setText(functions.newLinesRepairer(accords));
 
             Bitmap bitmapStart = BitmapFactory.decodeResource(getResources(), R.drawable.start)
                     .copy(Bitmap.Config.ARGB_8888, true);
@@ -155,6 +156,23 @@ public class SongBookContentFragment extends Fragment {
             Log.d(TAG, "bitmapFull Width : " + bitmapFull.getWidth());
             imageView.setImageBitmap(bitmapFull);
         }else{
+
+            String[] partsText = text.split("endLine");
+            String[] partsAccords = accords.split("endLine");
+            StringBuilder finalText = new StringBuilder();
+
+            Log.d(TAG, String.valueOf(partsText.length));
+            Log.d(TAG, String.valueOf(partsAccords.length));
+
+            for(int i = 0; i < partsAccords.length; i++){
+                finalText.append(partsAccords[i]);
+                finalText.append("\\n");
+                finalText.append(partsText[i]);
+                finalText.append("\\n");
+            }
+            Log.d(TAG, finalText.toString());
+            content.setText(functions.newLinesRepairer(String.valueOf(finalText)));
+
             switch (rate){
                 case "3/4":
                     Bitmap bitmapRate = BitmapFactory.decodeResource(getResources(), R.drawable.rate3_4)

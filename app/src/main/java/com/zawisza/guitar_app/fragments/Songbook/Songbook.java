@@ -11,6 +11,7 @@ public class Songbook implements Comparable<Songbook>{
     private String accords;
     private boolean tabs;
     private String rate;
+    private String text;
 
     public Songbook() {
     }
@@ -21,14 +22,16 @@ public class Songbook implements Comparable<Songbook>{
         this.accords = accords;
         this.tabs = tabs;
         this.rate = "";
+        this.text = "";
     }
 
-    public Songbook(int no, String title, String accords, boolean tabs, String rate) {
+    public Songbook(int no, String title, String accords, boolean tabs, String rate, String text) {
         this.no = no;
         this.title = title;
         this.accords = accords;
         this.tabs = tabs;
         this.rate = rate;
+        this.text = text;
     }
 
     public int getNo() {
@@ -52,6 +55,10 @@ public class Songbook implements Comparable<Songbook>{
         return rate;
     }
 
+    public String getText() {
+        return text;
+    }
+
     // overriding the compareTo method of Comparable class
     @Override public int compareTo(Songbook comparestu) {
         int comparenumber
@@ -73,6 +80,7 @@ public class Songbook implements Comparable<Songbook>{
                 ", accords='" + accords + '\'' +
                 ", tabs=" + tabs +
                 ", rate='" + rate + '\'' +
+                ", text='" + text + '\'' +
                 '}';
     }
 }

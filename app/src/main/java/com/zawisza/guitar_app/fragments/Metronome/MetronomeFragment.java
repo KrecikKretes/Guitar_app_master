@@ -18,6 +18,7 @@ import android.widget.NumberPicker;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.zawisza.guitar_app.IncreaseValue;
 import com.zawisza.guitar_app.R;
 
 import java.lang.reflect.InvocationTargetException;
@@ -128,19 +129,10 @@ public class MetronomeFragment extends Fragment {
 
         minusFiveButton.setOnClickListener(view -> {
             Log.d(TAG,"Przed : " + numberPicker.getValue());
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-                int i = 0;
-                @Override
-                public void run() {
-                    //changeValueByOne(numberPicker,false);
-                    Log.d(TAG,"Po : " + numberPicker.getValue());
-                    i++;
-                    if(i == 5){
-                        t.cancel();
-                    }
-                }
-            }, 0, 200);
+
+            IncreaseValue increaseValue = new IncreaseValue(numberPicker,-5);
+            increaseValue.run(300);
+
             Log.d(TAG,"Po : " + numberPicker.getValue());
         });
 
@@ -150,19 +142,10 @@ public class MetronomeFragment extends Fragment {
 
         plusFiveButton.setOnClickListener(view -> {
             Log.d(TAG,"Przed : " + numberPicker.getValue());
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-                int i = 0;
-                @Override
-                public void run() {
-                    changeValueByOne(numberPicker,true);
-                    Log.d(TAG,"Po : " + numberPicker.getValue());
-                    i++;
-                    if(i == 5){
-                        t.cancel();
-                    }
-                }
-            }, 0, 200);
+
+            IncreaseValue increaseValue = new IncreaseValue(numberPicker,5);
+            increaseValue.run(300);
+
             Log.d(TAG,"Po : " + numberPicker.getValue());
         });
     }
